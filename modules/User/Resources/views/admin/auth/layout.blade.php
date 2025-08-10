@@ -5,6 +5,8 @@
         <meta charset="UTF-8">
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
+        <link rel="shortcut icon" href="{{ setting('storefront_favicon') ? \Modules\Media\Entities\File::findOrNew(setting('storefront_favicon'))->path : asset('favicon.ico') }}" type="image/x-icon">
+
         <title>
             @yield('title') - {{ setting('store_name') }}
         </title>

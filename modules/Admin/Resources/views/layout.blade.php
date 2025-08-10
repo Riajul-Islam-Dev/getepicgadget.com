@@ -11,6 +11,8 @@
 
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
+        <link rel="shortcut icon" href="{{ setting('storefront_favicon') ? \Modules\Media\Entities\File::findOrNew(setting('storefront_favicon'))->path : asset('favicon.ico') }}" type="image/x-icon">
+
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
