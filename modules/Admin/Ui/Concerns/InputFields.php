@@ -92,18 +92,28 @@ trait InputFields
             '>';
 
         foreach ($list as $listValue => $listName) {
-            $listValue = e($listValue);
-            $listName = e($listName);
-
-            if ($multiple && $value instanceof Collection) {
-                $selected = $value->where('id', $listValue)->isNotEmpty() ? 'selected' : '';
-            } else if ($multiple && is_array($value)) {
-                $selected = in_array($listValue, $value) ? 'selected' : '';
+            // Handle complex array structure from Brand::list() and Tag::list()
+            if (is_array($listName) && isset($listName['name']) && isset($listName['value'])) {
+                $actualValue = $listName['value'];
+                $actualName = $listName['name'];
             } else {
-                $selected = (!is_null($value) && $value == $listValue) ? 'selected' : '';
+                // Handle simple key-value pairs
+                $actualValue = $listValue;
+                $actualName = $listName;
             }
 
-            $html .= "<option value='{$listValue}' {$selected}>{$listName}</option>";
+            $actualValue = e($actualValue);
+            $actualName = e($actualName);
+
+            if ($multiple && $value instanceof Collection) {
+                $selected = $value->where('id', $actualValue)->isNotEmpty() ? 'selected' : '';
+            } else if ($multiple && is_array($value)) {
+                $selected = in_array($actualValue, $value) ? 'selected' : '';
+            } else {
+                $selected = (!is_null($value) && $value == $actualValue) ? 'selected' : '';
+            }
+
+            $html .= "<option value='{$actualValue}' {$selected}>{$actualName}</option>";
         }
 
         $html .= '</select>';
