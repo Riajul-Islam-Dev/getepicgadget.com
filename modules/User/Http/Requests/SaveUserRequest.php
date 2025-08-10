@@ -26,7 +26,7 @@ class SaveUserRequest extends Request
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => ['required', 'email', $this->emailUniqueRule()],
-            'phone' => ['required'],
+            'phone' => ['required', $this->phoneUniqueRule()],
             'password' => 'nullable|confirmed|min:6',
             'roles' => ['required', Rule::exists('roles', 'id')],
         ];
@@ -34,6 +34,19 @@ class SaveUserRequest extends Request
 
 
     private function emailUniqueRule()
+    {
+        $rule = Rule::unique('users');
+
+        if ($this->route()->getName() === 'admin.users.update') {
+            $userId = $this->route()->parameter('id');
+
+            return $rule->ignore($userId);
+        }
+
+        return $rule;
+    }
+
+    private function phoneUniqueRule()
     {
         $rule = Rule::unique('users');
 

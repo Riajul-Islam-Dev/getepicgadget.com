@@ -26,7 +26,7 @@ class RegisterRequest extends Request
             'first_name' => ['required'],
             'last_name' => ['required'],
             'email' => ['required', 'email', 'unique:users'],
-            'phone' => ['required'],
+            'phone' => ['required', 'unique:users'],
             'password' => ['required', 'confirmed', 'min:6'],
             'privacy_policy' => ['accepted'],
             'g-recaptcha-response' => ['bail', 'sometimes', 'required', new GoogleRecaptcha()],
